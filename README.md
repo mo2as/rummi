@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RUMMI — Lista de Espera</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:'Inter', sans-serif;
+      background:#0B1020;
+      color:white;
+      overflow-x:hidden;
+    }
+
+    .background{
+      position:fixed;
+      inset:0;
+      background:
+      radial-gradient(circle at top left, rgba(255,185,0,.18), transparent 35%),
+      radial-gradient(circle at bottom right, rgba(0,132,255,.18), transparent 35%),
+      #0B1020;
+      z-index:-1;
+    }
+
+    .container{
+      width:90%;
+      max-width:1200px;
+      margin:auto;
+    }
+
+    header{
+      padding:30px 0;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .logo{
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:1px;
+    }
+
+    .badge{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+      padding:10px 16px;
+      border-radius:999px;
+      font-size:14px;
+      color:#F5C451;
+    }
+
+    .hero{
+      padding:60px 0 100px;
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:60px;
+      align-items:center;
+    }
+
+    h1{
+      font-size:64px;
+      line-height:1.05;
+      margin-bottom:24px;
+      font-weight:800;
+    }
+
+    .highlight{
+      color:#F5C451;
+    }
+
+    .subtitle{
+      font-size:20px;
+      line-height:1.6;
+      color:#B8C0D9;
+      margin-bottom:36px;
+      max-width:620px;
+    }
+
+    .stats{
+      display:flex;
+      gap:20px;
+      margin-top:40px;
+      flex-wrap:wrap;
+    }
+
+    .stat-card{
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(12px);
+      padding:20px;
+      border-radius:20px;
+      min-width:180px;
+    }
+
+    .stat-number{
+      font-size:28px;
+      font-weight:800;
+      color:#F5C451;
+      margin-bottom:8px;
+    }
+
+    .stat-label{
+      color:#AAB3CF;
+      font-size:14px;
+      line-height:1.4;
+    }
+
+    .form-card{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter:blur(18px);
+      border-radius:32px;
+      padding:40px;
+      position:relative;
+    }
+
+    .form-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:32px;
+      padding:1px;
+      background:linear-gradient(135deg, rgba(245,196,81,.4), rgba(255,255,255,.05));
+      -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+      -webkit-mask-composite:xor;
+      mask-composite:exclude;
+    }
+
+    .form-title{
+      font-size:32px;
+      font-weight:700;
+      margin-bottom:12px;
+    }
+
+    .form-subtitle{
+      color:#AAB3CF;
+      margin-bottom:32px;
+      line-height:1.6;
+    }
+
+    form{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    input, select{
+      width:100%;
+      padding:16px 18px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05);
+      color:white;
+      font-size:15px;
+      outline:none;
+    }
+
+    input::placeholder{
+      color:#7E88A8;
+    }
+
+    select{
+      color:#B8C0D9;
+    }
+
+    button{
+      margin-top:10px;
+      background:#F5C451;
+      color:#111827;
+      border:none;
+      padding:18px;
+      border-radius:16px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      transition:.25s ease;
+    }
+
+    button:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 30px rgba(245,196,81,.2);
+    }
+
+    .small{
+      margin-top:18px;
+      font-size:13px;
+      line-height:1.6;
+      color:#8F98B3;
+    }
+
+    .trust-section{
+      padding:100px 0;
+    }
+
+    .section-title{
+      text-align:center;
+      font-size:42px;
+      font-weight:800;
+      margin-bottom:20px;
+    }
+
+    .section-subtitle{
+      text-align:center;
+      color:#AAB3CF;
+      max-width:760px;
+      margin:0 auto 60px;
+      line-height:1.7;
+      font-size:18px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+    }
+
+    .card{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:24px;
+      padding:30px;
+    }
+
+    .card-icon{
+      font-size:36px;
+      margin-bottom:18px;
+    }
+
+    .card h3{
+      font-size:22px;
+      margin-bottom:12px;
+    }
+
+    .card p{
+      color:#AAB3CF;
+      line-height:1.7;
+    }
+
+    .fomo{
+      margin:100px auto;
+      background:linear-gradient(135deg,#F5C451,#DFA625);
+      border-radius:36px;
+      padding:70px 50px;
+      color:#111827;
+      text-align:center;
+    }
+
+    .fomo h2{
+      font-size:52px;
+      line-height:1.1;
+      margin-bottom:20px;
+      font-weight:800;
+    }
+
+    .fomo p{
+      font-size:20px;
+      line-height:1.7;
+      max-width:800px;
+      margin:auto;
+    }
+
+    footer{
+      padding:50px 0;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:#7E88A8;
+      text-align:center;
+      font-size:14px;
+    }
+
+    @media(max-width:980px){
+
+      .hero{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        font-size:48px;
+      }
+
+      .cards{
+        grid-template-columns:1fr;
+      }
+
+      .fomo h2{
+        font-size:38px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<div class="container">
+
+  <header>
+    <div class="logo">RUMMI</div>
+    <div class="badge">Acceso anticipado 2026</div>
+  </header>
+
+  <section class="hero">
+
+    <div>
+
+      <h1>
+        Invierte en <span class="highlight">finca raíz tokenizada</span><br>
+        desde USD $50
+      </h1>
+
+      <p class="subtitle">
+        La nueva generación de inversión inmobiliaria llega a Colombia.
+        Únete a la lista de espera exclusiva y obtén acceso prioritario al lanzamiento de RUMMI.
+      </p>
+
+      <div class="stats">
+
+        <div class="stat-card">
+          <div class="stat-number">14% EA*</div>
+          <div class="stat-label">
+            Retorno estimado potencial en activos tokenizados
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">
+            Acceso digital y liquidez desde tu celular
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-number">Early Access</div>
+          <div class="stat-label">
+            Beneficios exclusivos para primeros usuarios
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="form-card">
+
+      <div class="form-title">
+        Únete a la lista de espera
+      </div>
+
+      <div class="form-subtitle">
+        Sé de los primeros inversionistas en acceder a proyectos inmobiliarios tokenizados en Colombia.
+      </div>
+
+      <form>
+
+        <input type="text" placeholder="Nombre completo">
+
+        <input type="email" placeholder="Correo electrónico">
+
+        <input type="text" placeholder="Ciudad">
+
+        <select>
+          <option>¿Cuánto te gustaría invertir?</option>
+          <option>USD $50 - $500</option>
+          <option>USD $500 - $2.000</option>
+          <option>USD $2.000 - $10.000</option>
+          <option>+ USD $10.000</option>
+        </select>
+
+        <select>
+          <option>¿Ya inviertes actualmente?</option>
+          <option>Crypto</option>
+          <option>Finca raíz</option>
+          <option>CDTs</option>
+          <option>Fondos de inversión</option>
+          <option>Aún no invierto</option>
+        </select>
+
+        <input type="text" placeholder="WhatsApp (opcional)">
+
+        <button type="submit">
+          QUIERO ACCESO PRIORITARIO
+        </button>
+
+      </form>
+
+      <div class="small">
+        Acceso limitado para early adopters. Los usuarios registrados primero tendrán prioridad para entrar a los primeros proyectos disponibles.
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+<section class="trust-section">
+
+  <div class="container">
+
+    <h2 class="section-title">
+      ¿Por qué RUMMI?
+    </h2>
+
+    <p class="section-subtitle">
+      Estamos construyendo una nueva forma de invertir en activos reales:
+      más accesible, digital y transparente.
+    </p>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h3>Activos reales</h3>
+        <p>
+          Invierte en proyectos inmobiliarios y activos tokenizados respaldados por economía real.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <h3>100% digital</h3>
+        <p>
+          Accede desde cualquier lugar, monitorea tu inversión y participa desde montos accesibles.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Seguridad y transparencia</h3>
+        <p>
+          Infraestructura tecnológica diseñada para trazabilidad, cumplimiento y confianza.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<section class="container">
+
+  <div class="fomo">
+
+    <h2>
+      Los primeros inversionistas<br>
+      tendrán beneficios exclusivos
+    </h2>
+
+    <p>
+      Acceso anticipado a proyectos, contenido privado, invitaciones a eventos y prioridad en futuras oportunidades de inversión.
+    </p>
+
+  </div>
+
+</section>
+
+<footer>
+  © 2026 RUMMI — La nueva forma de inversión digital
+</footer>
+
+</body>
+</html>
